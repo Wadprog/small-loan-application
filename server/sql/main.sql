@@ -89,8 +89,8 @@ CREATE TABLE Colaterals (
 CREATE TABLE MediasVSColaterals (
     media_id INT NOT NULL, 
     colateral_id INT NOT NULL, 
-    FOREIGN KEY (colateral_id) REFERENCES COLATERALS(Id),
-    FOREIGN KEY (media_id) REFERENCES MEDIAS(iD)
+    FOREIGN KEY (colateral_id) REFERENCES Colaterals(id),
+    FOREIGN KEY (media_id) REFERENCES Medias(id)
 );
 
 CREATE TABLE Payments (
