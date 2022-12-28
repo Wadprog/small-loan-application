@@ -100,6 +100,13 @@ CREATE TABLE Colaterals (
     status ENUM('NEW', 'OLD', 'GOOD CONDITION')
 );
 
+CREATE TABLE LoansVsColaterals (
+    loan_id INT NOT NULL, 
+    colateral_id INT NOT NULL, 
+    FOREIGN KEY (colateral_id) REFERENCES Colaterals(id),
+    FOREIGN KEY (loan_id) REFERENCES Loans(id)
+);
+
 CREATE TABLE MediasVSColaterals (
     media_id INT NOT NULL, 
     colateral_id INT NOT NULL, 
