@@ -1,4 +1,4 @@
-/*DROP DATABASE Loaner IF EXISTS;*/
+DROP  DATABASE IF EXISTS Loaner;
 Create DATABASE Loaner;
 USE  Loaner;
 CREATE Table Medias(
@@ -7,6 +7,19 @@ CREATE Table Medias(
     ext VARCHAR(255) NOT NULL,
     location_path VARCHAR(255) NOT NULL
     );
+
+CREATE TABLE Tags (
+id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+title VARCHAR(50) NOT NULL,
+custom BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE MediasVsTags (
+media_id INT NOT NULL,
+tag_id INT NOT NULL, 
+FOREIGN KEY (tag_id) REFERENCES Tags(id), 
+FOREIGN KEY (media_id) REFERENCES Media(id)
+);
 
 CREATE TABLE Entities(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -83,6 +96,7 @@ CREATE TABLE Colaterals (
     details VARCHAR(255) NOT NULL,
     estimated_value INT NOT NULL, 
     market_value INT NOT NULL, 
+    properties JSON NULL,
     status ENUM('NEW', 'OLD', 'GOOD CONDITION')
 );
 
