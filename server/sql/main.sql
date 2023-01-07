@@ -1,6 +1,48 @@
 DROP  DATABASE IF EXISTS Loaner;
 Create DATABASE Loaner;
 USE  Loaner;
+
+CREATE TABLE Country (
+  id int NOT NULL Primary KEY AUTO_INCREMENT,
+  country_name varchar(200)  COMMENT 'Country name',
+  initials char(3) NOT NULL COMMENT 'Country abbreviation',
+);
+
+CREATE TABLE State (
+  id int NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'State identification',
+  state_name VARCHAR(75) DEFAULT NULL COMMENT 'Complete state name',
+  initials VARCHAR(3) DEFAULT NULL COMMENT 'State abbreviation',
+  state_area_code varchar(50) DEFAULT NULL COMMENT 'Area code from that state',
+  country_id int NOT NULL COMMENT 'Country identification',
+  FOREIGN KEY (country_id) REFERENCES Country (id)
+);
+
+CREATE TABLE City (
+  id int NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'City identifier',
+  city_name VARCHAR(200) NOT NULL COMMENT 'City name',
+  state_id int NOT NULL COMMENT 'state identifier, foreign key',
+) ;
+
+CREATE TABLE Street (
+id int NOT NULL AUTO_INCREMENT,
+street_zip_code varchar(9) NOT NULL,
+street_type VARCHAR(20) DEFAULT NULL,
+street_name VARCHAR(70) DEFAULT NULL,
+);
+
+CREATE TABLE AddressTypes (
+id int NOT NULL AUTO_INCREMENT,
+details ENUM('Home','Work','Office','Billing') NOT NULL,
+);
+
+CREATE TABLE Addresses (
+id int NOT NULL AUTO_INCREMENT,
+street_id int NOT NULL,
+address_types_id int NOT NULL,
+FOREIGN KEY (street_id) REFERENCES Street(id),
+FOREIGN KEY (address_types_id) REFERENCES AddressTypes(id)
+);
+
 CREATE Table Medias(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     details VARCHAR(255) NOT NULL,
@@ -27,6 +69,13 @@ CREATE TABLE Entities(
     last_name VARCHAR(255) NOT NULL,
     gender ENUM('m','f')
     
+);
+
+CREATE TABLE EntitiesVsAddresses (
+    entity_id INT NOT NULL,
+    address_id INT NOT NULL,
+    FOREIGN KEY (entity_id) REFERENCES Entities(id),
+    FOREIGN KEY (address_id) REFERENCES Addresses(id)
 );
 
 CREATE TABLE MediasEntities(
@@ -98,6 +147,13 @@ CREATE TABLE Colaterals (
     market_value INT NOT NULL, 
     properties JSON NULL,
     status ENUM('NEW', 'OLD', 'GOOD CONDITION')
+);
+
+CREATE TABLE LoansVsColaterals (
+    loan_id INT NOT NULL, 
+    colateral_id INT NOT NULL, 
+    FOREIGN KEY (colateral_id) REFERENCES Colaterals(id),
+    FOREIGN KEY (loan_id) REFERENCES Loans(id)
 );
 
 CREATE TABLE MediasVSColaterals (
